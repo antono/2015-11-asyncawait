@@ -1,0 +1,19 @@
+{
+  "name": "2015-11-ciklum-asyncawait",
+  "version": "1.0.0",
+  "description": "Presentation for Ciklum Frontend Saturday",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "presentation",
+    "async",
+    "await"
+  ],
+  "author": "Antono Vasiljev <antono.vasiljev@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "web-presentation": "^1.0.2"
+  }
+}
