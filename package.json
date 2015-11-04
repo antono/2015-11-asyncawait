@@ -4,7 +4,7 @@
   "description": "Presentation for Ciklum Frontend Saturday",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "$(npm bin)/hs"
   },
   "keywords": [
     "presentation",
@@ -14,6 +14,7 @@
   "author": "Antono Vasiljev <antono.vasiljev@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "http-server": "^0.8.5",
     "web-presentation": "^1.0.2"
   }
 }
