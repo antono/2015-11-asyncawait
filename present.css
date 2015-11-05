@@ -1,0 +1,26 @@
+body {
+  font-size: 2em;
+}
+pre {
+  text-align: left;
+}
+
+code {
+  font-family: monospace;
+}
+
+code.huge {
+  font-size: 1.2em;
+}
+
+code.big {
+  font-size: 1em;
+}
+
+code.small {
+  font-size: .8em;
+}
+
+ul li, ol li {
+  text-align: left;
+}

@@ -1,12 +1,234 @@
 <link rel="import" href="node_modules/web-presentation/dist/web-presentation.html">
+<link rel="stylesheet" href="present.css">
 
 <web-presentation>
-  <web-presentation-progress></web-presentation-progress>
-  <web-presentation-keyboardcontrols></web-presentation-keyboardcontrols>
 
   <web-slide-title>
+		<h2> Async / Await </h2>
+		<h3>Escape from callback hell</h3>
+		<p><a href="http://twitter.com/antono/">Anton Vasiljev</a></p>
+  </web-slide-title>
+
+  <web-slide-title>
+		<h2> Synchronous IO </h2>
+		<h3> blocking </h3>
   </web-slide-title>
 
   <web-slide>
+    <pre>
+      <code class='ruby huge'>
+        user  = User.by_email(email)
+        blog  = Blog.by_user_id(user.id)
+        posts = Post.all_by_blog_id(blog.id)
+
+        puts posts
+      </code>
+    </pre>
   </web-slide>
+
+  <web-slide-title>
+		<h2> Classic Asynchronous IO </h2>
+		<h3> non blocking </h3>
+  </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code class='javascript big'>
+        User.byEmail(email, (user) => {
+          console.log(user);
+        })
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript big'>
+User.byEmail(email, (user) => {
+  Blog.byUserId(user.id, (blog) => {
+    Post.allByBlogId(blog.id, (posts) => {
+      console.log(posts);
+    })
+  })
+})
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide-title style="background-image: url(images/problem1.png)">
+    <h2> Problems? </h2>
+  </web-slide-title>
+
+  <web-slide>
+    <ul>
+      <li> Pyramid of doom </li>
+      <li> try / catch </li>
+      <li> git blame </li>
+    </ul>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript small'>
+step1('yo!', (res1) => {
+  step2(res1, (res2) => {
+    step3(res2, (res3) => {
+      step4(res3, (res4) => {
+        step5(res4, (res5) => {
+          step6(res5, (res6) => {
+            step7(res6, (res7) => {
+              ...
+            })
+          })
+        })
+      })
+    })
+  })
+})
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript big'>
+try {
+  setTimeout(function () {
+    throw new Error('Hello Kitty')
+  }, 0)
+} catch (e) {
+  console.log(e);
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+  </web-slide>
+
+  <web-slide-title>
+		<h2> Callbacks -> Promises </h2>
+  </web-slide-title>
+
+  <web-slide>
+    <blockquote cite="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Promise">
+      <p>
+        The Promise object is used for deferred and asynchronous computations.
+      </p>
+      <p>
+        A Promise represents an operation that hasn't completed yet,
+        but is expected in the future.
+      </p>
+    </blockquote>
+  </web-slide>
+
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+step1()
+  .then(step2)
+  .then(step3)
+  .then(step4)
+  .then(step5)
+  .then(step6)
+  .catch(console.log.bind(console))
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <h3> Typical step with callback </h3>
+    <pre>
+      <code class='javascript small'>
+function step(url, cb) {
+  getResultAsync(url, function(err, res) {
+    if (result) {
+      cb(null, res);
+    } else {
+      cb(new Error("HELLO"));
+    }
+  });
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <h3> Typical step with Promise </h3>
+    <pre>
+      <code class='javascript small'>
+function step(url) {
+  return new Promise((resolve, reject) => {
+    getResultAsync(url, (err, res) => {
+      if (res) {
+        resolve(res);
+      } else {
+        reject(err);
+      }
+    });
+  });
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <h2> Promises in the wild </h2>
+    <pre>
+      <code class='javascript'>
+window.fetch('/')
+  .then(response => response.text())
+  .then(console.log.bind(console))
+  .catch(console.log.bind(console))
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide-title>
+		<h2> Promises + Generators </h2>
+  </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+function step1() {
+  return fetch('http://ya.ru/');
+}
+
+function step2() {
+  return fetch('http://ya.ru/');
+}
+
+function step3() {
+  return fetch('http://ya.ru/');
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+
+function * createSeq() {
+  var res;
+
+  res = yield step1();
+  console.log(res);
+
+  res = yield step2(res);
+  console.log(res);
+
+  throw Error('Hello Kitty')
+
+  res = yield step3(res);
+  console.log(res);
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-presentation-progress></web-presentation-progress>
+  <web-presentation-keyboardcontrols></web-presentation-keyboardcontrols>
 </web-presentation>
