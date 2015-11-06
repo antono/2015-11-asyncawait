@@ -3,27 +3,34 @@
 
 const fetch = require('node-fetch');
 
-function fetchText(url) {
+function pfetch(url) {
   return fetch(url).then(resp => resp.text());
 }
 
-async function fetchTexts(url) {
-  let res;
+async function fetchSeq(url) {
+  url = await pfetch(url);
+  console.log('Fetched', url);
 
-  res = await fetchText(url);
-  console.log('Fetched', res);
+  url = await pfetch(url);
+  console.log('Fetched', url);
 
-  res = await fetchText(res);
-  console.log('Fetched', res);
+  url = await pfetch(url);
+  console.log('Fetched', url);
 
-  // throw Error('Hello Kitty')
+  url = await pfetch(url);
+  console.log('Fetched', url);
 
-  res = await fetchText(res);
-  console.log('Fetched', res);
+  url = await pfetch(url);
+  console.log('Fetched', url);
 
+  url = await pfetch(url);
+  console.log('Fetched', url);
+
+  url = await pfetch(url);
+  console.log('Fetched', url);
   // throw Error('Hello Kitty')
   return 'All Done';
 }
 
-fetchTexts('http://antono.info/test/step1.txt')
+fetchSeq('http://antono.info/x/step1.txt')
   .then(console.log.bind(console))

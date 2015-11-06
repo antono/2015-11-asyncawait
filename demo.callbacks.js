@@ -3,7 +3,7 @@
 
 const http = require('http');
 
-function fetchText(url, cb) {
+function fetch(url, cb) {
   http.get(url, function(res) {
     var body = '';
     res.on('data', data => body += data);
@@ -11,16 +11,24 @@ function fetchText(url, cb) {
   });
 }
 
-fetchText('http://antono.info/test/step1.txt', (res1) => {
+fetch('http://antono.info/x/step1.txt', (res1) => {
   console.log('Fetched', res1);
-
-  fetchText(res1, (res2) => {
+  fetch(res1, (res2) => {
     console.log('Fetched', res2);
-
-    throw Error('Hello Kitty');
-
-    fetchText(res2, (res3) => {
+    fetch(res2, (res3) => {
       console.log('Fetched', res3);
+      fetch(res3, (res4) => {
+        console.log('Fetched', res4);
+        fetch(res4, (res5) => {
+          console.log('Fetched', res5);
+          fetch(res5, (res6) => {
+            console.log('Fetched', res6);
+            fetch(res6, (res7) => {
+              console.log('Fetched', res7);
+            });
+          });
+        });
+      });
     });
   });
 });

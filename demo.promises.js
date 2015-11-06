@@ -3,14 +3,15 @@
 
 const fetch = require('node-fetch');
 
-function fetchText(url) {
-  console.log('Prev result: ', url)
+function pfetch(url) {
   return fetch(url).then(resp => resp.text());
 }
 
-fetchText('http://antono.info/test/step1.txt')
-  .then(fetchText)
-  // .then(() => throw new Error('Hello Kitty'))
-  .then(fetchText)
-  .then(() => { throw new Error('Hello Kitty') })
+pfetch('http://antono.info/x/step1.txt')
+  .then(pfetch)
+  .then(pfetch)
+  .then(pfetch)
+  .then(pfetch)
+  .then(pfetch)
+  .then(pfetch)
   .catch(err => console.log("Catced error", err.stack))

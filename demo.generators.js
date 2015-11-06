@@ -3,31 +3,35 @@
 
 const fetch = require('node-fetch');
 
-function fetchText(url) {
+function pfetch(url) {
   return fetch(url).then(resp => resp.text());
 }
 
-function * createSeq() {
-  let res;
-  let url = 'http://antono.info/test/step1.txt';
-
-  res = yield fetchText(url);
-  console.log('Fetched', res); // #1
-
-  res = yield fetchText(res);
-  console.log('Fetched', res); // #2
-
-  // throw Error('Hello Kitty')  
-
-  res = yield fetchText(res);
-  console.log('Fetched', res); // #3
-
-  throw Error('Hello Kitty')
+function * fetchSeq(url) {
+  url = yield pfetch(url);
+  console.log('Fetched', url);
+  url = yield pfetch(url);
+  console.log('Fetched', url);
+  url = yield pfetch(url);
+  console.log('Fetched', url);
+  url = yield pfetch(url);
+  console.log('Fetched', url);
+  url = yield pfetch(url);
+  console.log('Fetched', url);
+  url = yield pfetch(url);
+  console.log('Fetched', url);
+  url = yield pfetch(url);
+  console.log('Fetched', url);
+  // throw Error('Hello Kitty')
 }
 
-const seq = createSeq()
+const seq = fetchSeq('http://antono.info/x/step1.txt');
 
-Promise.resolve(true)
+seq.next().value
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
   .then(res => seq.next(res).value)
   .then(res => seq.next(res).value)
   .then(res => seq.next(res).value)
