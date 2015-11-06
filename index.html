@@ -4,50 +4,81 @@
 <web-presentation>
 
   <web-slide-title>
-		<h2> Async / Await </h2>
-		<h3>Escape from callback hell</h3>
-		<p><a href="http://twitter.com/antono/">Anton Vasiljev</a></p>
+    <h2> Async / Await </h2>
+    <p><a href="http://twitter.com/antono/"> Anton Vasiljev </a></p>
   </web-slide-title>
 
   <web-slide-title>
-		<h2> Synchronous IO </h2>
-		<h3> blocking </h3>
+    <ol>
+      <li> Fetch URL </li>
+      <li> Read new URL from result </li>
+      <li> repeat 7 times </li>
+    </ol>
+  </web-slide-title>
+
+  <web-slide-title>
+    <ul>
+      <li> http://.../step1.txt &rarr; /step2.txt </li>
+      <li> http://.../step2.txt &rarr; /step3.txt </li>
+      <li> http://.../step3.txt &rarr; /step4.txt </li>
+      <li> http://.../step4.txt &rarr; /step5.txt </li>
+      <li> http://.../step5.txt &rarr; /step6.txt </li>
+      <li> http://.../step6.txt &rarr; /step7.txt </li>
+      <li> http://.../step7.txt &rarr; done </li>
+    </ul>
+  </web-slide-title>
+
+  <web-slide-title>
+    <h2> Synchronous IO </h2>
+    <h3> blocking </h3>
+    <h3> simple mental model </h3>
   </web-slide-title>
 
   <web-slide>
     <pre>
-      <code class='ruby huge'>
-        user  = User.by_email(email)
-        blog  = Blog.by_user_id(user.id)
-        posts = Post.all_by_blog_id(blog.id)
-
-        puts posts
+      <code class='ruby'>
+url = fetch('http://antono.info/x/step1.txt')
+url = fetch(url)
+url = fetch(url)
+url = fetch(url)
+url = fetch(url)
+url = fetch(url)
+url = fetch(url)
+puts url # => 'done'
       </code>
     </pre>
   </web-slide>
 
   <web-slide-title>
-		<h2> Classic Asynchronous IO </h2>
-		<h3> non blocking </h3>
+    <h2> Classic Asynchronous IO </h2>
+    <h3> non blocking </h3>
   </web-slide-title>
 
   <web-slide>
     <pre>
-      <code class='javascript big'>
-        User.byEmail(email, (user) => {
-          console.log(user);
+      <code class='javascript huge'>
+fetch(url, (url) => {
+  console.log(url);
+})
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript small'>
+fetch(url, (url) => {
+  fetch(url, (url) => {
+    fetch(url, (url) => {
+      fetch(url, (url) => {
+        fetch(url, (url) => {
+          fetch(url, (url) => {
+            fetch(url, (res) => {
+              console.log(res) // 'done'
+            })
+          })
         })
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript big'>
-User.byEmail(email, (user) => {
-  Blog.byUserId(user.id, (blog) => {
-    Post.allByBlogId(blog.id, (posts) => {
-      console.log(posts);
+      })
     })
   })
 })
@@ -55,17 +86,17 @@ User.byEmail(email, (user) => {
     </pre>
   </web-slide>
 
-  <web-slide-title style="background-image: url(images/problem1.png)">
+  <web-slide>
+    <img src="images/yo.callbacks.jpg" alt="" />
+  </web-slide>
+
+  <web-slide-title style="background-image: url(images/problem1.png)" data-transition="newspaper">
     <h2> Problems? </h2>
   </web-slide-title>
 
-  <web-slide>
-    <ul>
-      <li> Pyramid of doom </li>
-      <li> try / catch </li>
-      <li> git blame </li>
-    </ul>
-  </web-slide>
+  <web-slide-title>
+    <h2> deep nesting </h2>
+  </web-slide-title>
 
   <web-slide>
     <pre>
@@ -89,13 +120,17 @@ step1('yo!', (res1) => {
     </pre>
   </web-slide>
 
+  <web-slide-title>
+    <h2> try / catch </h2>
+  </web-slide-title>
+
   <web-slide>
     <pre>
       <code class='javascript big'>
 try {
-  setTimeout(function () {
+  fetch('http://ya.ru/', () => {
     throw new Error('Hello Kitty')
-  }, 0)
+  })
 } catch (e) {
   console.log(e);
 }
@@ -105,6 +140,40 @@ try {
 
   <web-slide>
     Uncaught Error: Hello Kitty
+  </web-slide>
+
+  <web-slide>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/8aGhZQkoFbQ" frameborder="0" allowfullscreen></iframe>
+  </web-slide>
+
+  <web-slide-title>
+    <h2> git blame lies </h2>
+  </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code class='javascript small'>
+<span style='color: red'>step1('yo!', (res1) => {</span><span style='color: orange'>
+  step2(res1, (res2) => {
+    step3(res2, (res3) => {
+      step4(res3, (res4) => {
+        step5(res4, (res5) => {
+          step6(res5, (res6) => {
+            step7(res6, (res7) => {
+              ...
+            })
+          })
+        })
+      })
+    })
+  })
+</span><span style='color: red'>})</span>
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+		<h2> git blame -w </h2>
   </web-slide>
 
   <web-slide-title>
@@ -121,48 +190,32 @@ try {
         but is expected in the future.
       </p>
     </blockquote>
+    <a href="http://www.html5rocks.com/en/tutorials/es6/promises/"> JavaScript Promises </a>
   </web-slide>
 
-
   <web-slide>
+    <h3> fetch with callback </h3>
     <pre>
-      <code class='javascript'>
-step1()
-  .then(step2)
-  .then(step3)
-  .then(step4)
-  .then(step5)
-  .then(step6)
-  .catch(console.log.bind(console))
+      <code class='javascript small'>
+fetch(url, (err, res) => {
+  if (!err) {
+    ...
+  } else {
+    ...
+  }
+});
       </code>
     </pre>
   </web-slide>
 
   <web-slide>
-    <h3> Typical step with callback </h3>
+    <h3> promisified fetch </h3>
     <pre>
       <code class='javascript small'>
-function step(url, cb) {
-  getResultAsync(url, function(err, res) {
-    if (result) {
-      cb(null, res);
-    } else {
-      cb(new Error("HELLO"));
-    }
-  });
-}
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <h3> Typical step with Promise </h3>
-    <pre>
-      <code class='javascript small'>
-function step(url) {
+function pfetch(url) {
   return new Promise((resolve, reject) => {
-    getResultAsync(url, (err, res) => {
-      if (res) {
+    fetch(url, (err, res) => {
+      if (!err) {
         resolve(res);
       } else {
         reject(err);
@@ -175,7 +228,7 @@ function step(url) {
   </web-slide>
 
   <web-slide>
-    <h2> Promises in the wild </h2>
+    <h2> in browsers </h2>
     <pre>
       <code class='javascript'>
 window.fetch('/')
@@ -187,30 +240,12 @@ window.fetch('/')
     <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a>
   </web-slide>
 
-  <web-slide-title>
-		<h2> Promises + Generators </h2>
-  </web-slide-title>
-
   <web-slide>
+    <h3> simplified promised fetch </h3>
     <pre>
-      <code class='javascript'>
-        function stepX(url) {
-          return window.fetch(url)
-            .then(response => response.text());
-        }
-      </code>
-    </pre>
-  </web-slide>
-
-  <web-slide>
-    <pre>
-      <code class='javascript'>
-function * seqGet(url) {
-  url = yield step1(url);
-  url = yield step2(url);
-  url = yield step3(url);
-  url = yield step4(url);
-  url = yield step5(url);
+      <code class='javascript big'>
+function pfetch(url) {
+  return fetch(url).then(resp => resp.text());
 }
       </code>
     </pre>
@@ -219,18 +254,85 @@ function * seqGet(url) {
   <web-slide>
     <pre>
       <code class='javascript'>
-const seq = seqGet()
-
-Promise.resolve(true)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
+pfetch('http://antono.info/x/step1.txt')
+  .then(pfetch)
+  .then(pfetch)
+  .then(pfetch)
+  .then(pfetch)
+  .then(pfetch)
+  .then(pfetch)
   .catch((err) => {
     console.log("Catced error", err.stack)
   })
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide-title>
+    <h2> Promises + Generators </h2>
+  </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+function pfetch(url) {
+  return fetch(url).then(resp => resp.text());
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+function <span style="color:red">*</span> fetchSeq(url) {
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+const gen = fetchSeq('http://antono.info/x/step1.txt');
+
+gen.next().value
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .catch(err => console.log("Catced error", err.stack))
+
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide-title>
+		<h2> Task.js </h2>
+  </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+<span style="color:red">spawn</span>(function <span style="color:red">*</span> (url) {
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+})
       </code>
     </pre>
   </web-slide>
@@ -242,7 +344,7 @@ Promise.resolve(true)
   <web-slide>
     <pre>
       <code class='javascript'>
-function stepX(url) {
+function pfetch(url) {
   return fetch(url).then(resp => resp.text());
 }
       </code>
@@ -252,12 +354,15 @@ function stepX(url) {
   <web-slide>
     <pre>
       <code class='javascript'>
-async function fetchTexts(url) {
-  url = await step1(url);
-  url = await step2(url);
-  url = await step3(url);
-  url = await step4(url);
-  return "Last value: ${url}";
+async function fetchSeq(url) {
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  return "Found: ${url}";
 }
       </code>
     </pre>
@@ -266,7 +371,7 @@ async function fetchTexts(url) {
   <web-slide>
     <pre>
       <code class='javascript'>
-fetchTexts('http://antono.info/test/step1.txt')
+fetchSeq('http://antono.info/x/step1.txt')
       </code>
     </pre>
   </web-slide>
@@ -274,8 +379,81 @@ fetchTexts('http://antono.info/test/step1.txt')
   <web-slide>
     <pre>
       <code class='javascript'>
-fetchTexts('http://antono.info/test/step1.txt')
-  .then(console.log.bind(console))
+fetchSeq('http://antono.info/x/step1.txt')
+  .then(result => console.log(result))
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide-title>
+		<h2> Comparsion </h2>
+  </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code class='ruby'>
+url = fetch('http://antono.info/x/step1.txt')
+url = fetch(url)
+url = fetch(url)
+url = fetch(url)
+url = fetch(url)
+url = fetch(url)
+url = fetch(url)
+puts url # => 'done'
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript small'>
+fetch(url, (url) => {
+  fetch(url, (url) => {
+    fetch(url, (url) => {
+      fetch(url, (url) => {
+        fetch(url, (url) => {
+          fetch(url, (url) => {
+            fetch(url, (res) => {
+              console.log(res) // 'done'
+            })
+          })
+        })
+      })
+    })
+  })
+})
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+<span style="color:red">spawn</span>(function <span style="color:red">*</span> (url) {
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+  url = yield pfetch(url);
+})
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+async function fetchSeq(url) {
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+  url = await pfetch(url);
+}
       </code>
     </pre>
   </web-slide>
