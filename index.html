@@ -104,6 +104,7 @@ try {
   </web-slide>
 
   <web-slide>
+    Uncaught Error: Hello Kitty
   </web-slide>
 
   <web-slide-title>
@@ -183,6 +184,7 @@ window.fetch('/')
   .catch(console.log.bind(console))
       </code>
     </pre>
+    <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a>
   </web-slide>
 
   <web-slide-title>
@@ -192,16 +194,24 @@ window.fetch('/')
   <web-slide>
     <pre>
       <code class='javascript'>
-function step1() {
-  return fetch('http://ya.ru/');
-}
+        function stepX(url) {
+          return window.fetch(url)
+            .then(response => response.text());
+        }
+      </code>
+    </pre>
+  </web-slide>
 
-function step2() {
-  return fetch('http://ya.ru/');
-}
-
-function step3() {
-  return fetch('http://ya.ru/');
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+function * seqGet(start) {
+  var res;
+  res = yield step1(start);
+  res = yield step2(res);
+  res = yield step3(res);
+  res = yield step4(res);
+  res = yield step5(res);
 }
       </code>
     </pre>
@@ -210,21 +220,39 @@ function step3() {
   <web-slide>
     <pre>
       <code class='javascript'>
+const seq = seqGet()
 
-function * createSeq() {
-  var res;
+Promise.resolve(true)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .then(res => seq.next(res).value)
+  .catch((err) => {
+    console.log("Catced error", err.stack)
+  })
+      </code>
+    </pre>
+  </web-slide>
 
-  res = yield step1();
-  console.log(res);
+  <web-slide-title>
+		<h2> Async / Await </h2>
+  </web-slide-title>
 
-  res = yield step2(res);
-  console.log(res);
-
-  throw Error('Hello Kitty')
-
-  res = yield step3(res);
-  console.log(res);
+  <web-slide>
+    <pre>
+      <code class='javascript'>
+function fetchText(url) {
+  return fetch(url).then(resp => resp.text());
 }
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code class='javascript'>
       </code>
     </pre>
   </web-slide>

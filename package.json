@@ -14,6 +14,7 @@
   "author": "Antono Vasiljev <antono.vasiljev@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "babel": "^6.0.15",
     "highlight.js": "^8.9.1",
     "http-server": "^0.8.5",
     "web-presentation": "^1.0.2"

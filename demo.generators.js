@@ -12,15 +12,15 @@ function * createSeq() {
   let url = 'http://antono.info/test/step1.txt';
 
   res = yield fetchText(url);
-  console.log('Fetched', res);
+  console.log('Fetched', res); // #1
 
   res = yield fetchText(res);
-  console.log('Fetched', res);
+  console.log('Fetched', res); // #2
 
-  // throw Error('Hello Kitty')
+  // throw Error('Hello Kitty')  
 
   res = yield fetchText(res);
-  console.log('Fetched', res);
+  console.log('Fetched', res); // #3
 
   throw Error('Hello Kitty')
 }
