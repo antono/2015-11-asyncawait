@@ -9,23 +9,23 @@
   </web-slide-title>
 
   <web-slide-title>
+    <ul style="font-size: 0.7em;">
+      <li> http://antono.info/x/step1.txt &rarr; /step2.txt </li>
+      <li> http://antono.info/x/step2.txt &rarr; /step3.txt </li>
+      <li> http://antono.info/x/step3.txt &rarr; /step4.txt </li>
+      <li> http://antono.info/x/step4.txt &rarr; /step5.txt </li>
+      <li> http://antono.info/x/step5.txt &rarr; /step6.txt </li>
+      <li> http://antono.info/x/step6.txt &rarr; /step7.txt </li>
+      <li> http://antono.info/x/step7.txt &rarr; done </li>
+    </ul>
+  </web-slide-title>
+
+  <web-slide-title>
     <ol>
       <li> Fetch URL </li>
       <li> Read new URL from result </li>
       <li> repeat 7 times </li>
     </ol>
-  </web-slide-title>
-
-  <web-slide-title>
-    <ul>
-      <li> http://.../step1.txt &rarr; /step2.txt </li>
-      <li> http://.../step2.txt &rarr; /step3.txt </li>
-      <li> http://.../step3.txt &rarr; /step4.txt </li>
-      <li> http://.../step4.txt &rarr; /step5.txt </li>
-      <li> http://.../step5.txt &rarr; /step6.txt </li>
-      <li> http://.../step6.txt &rarr; /step7.txt </li>
-      <li> http://.../step7.txt &rarr; done </li>
-    </ul>
   </web-slide-title>
 
   <web-slide-title>
@@ -261,9 +261,7 @@ pfetch('http://antono.info/x/step1.txt')
   .then(pfetch)
   .then(pfetch)
   .then(pfetch)
-  .catch((err) => {
-    console.log("Catced error", err.stack)
-  })
+  .catch(err => console.log(err.stack))
       </code>
     </pre>
   </web-slide>
@@ -311,7 +309,7 @@ gen.next().value
   .then(res => seq.next(res).value)
   .then(res => seq.next(res).value)
   .then(res => seq.next(res).value)
-  .catch(err => console.log("Catced error", err.stack))
+  .catch(err => console.log(err.stack))
 
       </code>
     </pre>
