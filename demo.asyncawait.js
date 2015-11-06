@@ -22,7 +22,8 @@ async function fetchTexts(url) {
   console.log('Fetched', res);
 
   // throw Error('Hello Kitty')
-  return res;
+  return 'All Done';
 }
 
-fetchTexts('http://antono.info/test/step1.txt').then(console.log.bind(console))
+fetchTexts('http://antono.info/test/step1.txt')
+  .then(console.log.bind(console))
