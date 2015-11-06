@@ -205,13 +205,12 @@ window.fetch('/')
   <web-slide>
     <pre>
       <code class='javascript'>
-function * seqGet(start) {
-  var res;
-  res = yield step1(start);
-  res = yield step2(res);
-  res = yield step3(res);
-  res = yield step4(res);
-  res = yield step5(res);
+function * seqGet(url) {
+  url = yield step1(url);
+  url = yield step2(url);
+  url = yield step3(url);
+  url = yield step4(url);
+  url = yield step5(url);
 }
       </code>
     </pre>
