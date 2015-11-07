@@ -5,6 +5,10 @@ pre {
   text-align: left;
 }
 
+a, a:visited {
+  color: blue;
+}
+
 code {
   font-family: monospace;
 }
