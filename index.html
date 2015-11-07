@@ -213,7 +213,7 @@ fetch(url, (err, res) => {
     <pre>
       <code class='javascript small'>
 function pfetch(url) {
-  return new Promise((resolve, reject) => {
+  return new <span style="color:red">Promise</span>((resolve, reject) => {
     fetch(url, (err, res) => {
       if (!err) {
         resolve(res);
@@ -269,6 +269,34 @@ pfetch('http://antono.info/x/step1.txt')
   <web-slide-title>
     <h2> Promises + Generators </h2>
   </web-slide-title>
+
+  <web-slide>
+    <pre>
+      <code>
+function <span style="color:red">*</span> foo() {
+  yield 1;
+  yield 2;
+  yield 3;
+  yield 4;
+  yield 5;
+}
+      </code>
+    </pre>
+  </web-slide>
+
+  <web-slide>
+    <pre>
+      <code>
+var it = foo();
+it.next(); // { value: 1, done: false }
+it.next(); // { value: 2, done: false }
+it.next(); // { value: 3, done: false }
+it.next(); // { value: 4, done: false }
+it.next(); // { value: 5, done: false }
+it.next(); // { value: undefined, done: true }
+      </code>
+    </pre>
+  </web-slide>
 
   <web-slide>
     <pre>
