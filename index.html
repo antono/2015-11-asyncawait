@@ -342,13 +342,13 @@ function <span style="color:red">*</span> fetchSeq(url) {
 const gen = fetchSeq('http://antono.info/x/step1.txt');
 
 gen.next().value
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
-  .then(res => seq.next(res).value)
+  .then(res => gen.next(res).value)
+  .then(res => gen.next(res).value)
+  .then(res => gen.next(res).value)
+  .then(res => gen.next(res).value)
+  .then(res => gen.next(res).value)
+  .then(res => gen.next(res).value)
+  .then(res => gen.next(res).value)
   .catch(err => console.log(err.stack))
 
       </code>
