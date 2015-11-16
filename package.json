@@ -4,7 +4,7 @@
   "description": "Presentation for Ciklum Frontend Saturday",
   "main": "index.js",
   "scripts": {
-    "start": "$(npm bin)/hs",
+    "start": "$(npm bin)/http-server",
     "async": "$(npm bin)/babel-node demo.asyncawait.js"
   },
   "keywords": [
