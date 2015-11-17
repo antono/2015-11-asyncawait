@@ -20,5 +20,6 @@
   },
   "devDependencies": {
     "node-fetch": "^1.3.3"
-  }
+  },
+  { "engines" : { "node" : ">=5.1.0" } }
 }
